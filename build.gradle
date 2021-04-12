@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id "org.flywaydb.flyway" version "7.7.3"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306/my_db'
+    user = 'root'
+    password = 'test_database_password'
+    locations = ['filesystem:flyway/sql']
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-config-yaml'
+    implementation 'io.quarkus:quarkus-resteasy-jsonb'
+    implementation 'io.quarkus:quarkus-resteasy-mutiny'
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
+    implementation 'io.quarkus:quarkus-reactive-mysql-client'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-narayana-jta'
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-test-security'
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    testImplementation 'io.quarkus:quarkus-jdbc-mysql'
+}
+
+test {
+    useJUnitPlatform()
+    dependsOn flywayMigrate
+}

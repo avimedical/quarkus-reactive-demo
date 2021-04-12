@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: my_db
+      MYSQL_ROOT_PASSWORD: test_database_password
+    ports:
+      - "3306:3306"
+  quarkus-reactive-demo-flyway:
+    image: quarkus-reactive-demo-flyway:latest
+    depends_on:
+     - mysql
+    environment:
+      JDBC_CONNECTION_URL: jdbc:mysql://mysql:3306/my_db
+      MIGRATION_USER: root
+      MIGRATION_PASSWORD: test_database_password

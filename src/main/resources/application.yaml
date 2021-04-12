@@ -1,0 +1,7 @@
+quarkus:
+  datasource:
+    db-kind: mysql
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:test_database_password}
+    reactive:
+      url: ${DB_URL:mysql://localhost:3306/my_db}
