@@ -1,5 +1,6 @@
 package org.example.quarkus_reactive_demo.api;
 
+import io.quarkus.hibernate.reactive.panache.Panache;
 import io.quarkus.test.junit.QuarkusTest;
 import org.example.quarkus_reactive_demo.entity.MyEntity;
 import org.example.quarkus_reactive_demo.repository.MyRepository;
@@ -18,14 +19,27 @@ class MyControllerTest {
 
     @BeforeEach
     void setup() {
+
+    }
+
+    @Test
+    void testEndpoint1() {
         final var myEntity = new MyEntity();
         myEntity.setName("aname");
         myEntity.setDescription("adescription");
         myRepository.persist(myEntity);
+
+        given().when().get("/api").then().statusCode(200).extract();
     }
 
     @Test
-    void testEndpoint() {
+    void testEndpoint2() {
+        final var myEntity = new MyEntity();
+        myEntity.setName("aname");
+        myEntity.setDescription("adescription");
+
+        Panache.withTransaction(() -> myRepository.persist(myEntity));
+
         given().when().get("/api").then().statusCode(200).extract();
     }
 
