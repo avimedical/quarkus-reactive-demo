@@ -1,15 +1,36 @@
-#Gradle
+# Gradle
 .gradle/
 build/
 
 # Eclipse
-.classpath
 .project
+.classpath
 .settings/
 bin/
 
-# IntelliJ IDEA
-.idea/
+# IntelliJ
+.idea
+*.ipr
 *.iml
 *.iws
-*.ipr
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# Local environment
+.env
